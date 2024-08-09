@@ -34,7 +34,7 @@ message_text = """
 📍Київське шосе, 10б (біля Нової Лінії);
 🚍Доставка на роботу транспортом підприємства;
 🕒Графік роботи: 
-Пн-пт — повний робочий день, 
+Пн-пт -повний робочий день, 
 Сб — до 13:00/14:00 годин;
 ☎️ 0639982527 Олександр. Телефонуйте або пишіть!
 """
@@ -63,8 +63,17 @@ async def notify_start():
 def schedule_jobs():
     # Schedule messages from 08:35 to 21:35 every hour
     for hour in range(8, 22):  # From 8 to 21 inclusive
-        time_str = f"{hour:02d}:38"
+        time_str = f"{hour:02d}:35"
         schedule.every().day.at(time_str).do(lambda: asyncio.create_task(send_message()))
+
+# Event handler to respond to messages from the notification_id
+@client.on(events.NewMessage(chats=notification_id))
+async def handler(event):
+    try:
+        await event.reply("i’m working")
+        print("Replied to message from notification_id")
+    except Exception as e:
+        print(f"Error replying to {notification_id}: {e}")
 
 async def main():
     await notify_start()
@@ -74,5 +83,6 @@ async def main():
         schedule.run_pending()
         await asyncio.sleep(1)
 
-# Run the script
-asyncio.run(main())
+# Start the client and run the script
+client.start(phone=phone_number)
+client.loop.run_until_complete(main())
