@@ -1,10 +1,8 @@
-import os
-import asyncio
 from telethon import TelegramClient, events
 from telethon.errors import FloodWaitError
 import schedule
 import time
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import asyncio
 
 # Your Telegram API details
 api_id = '19463194'
@@ -20,7 +18,6 @@ chat_ids = [
     -1001936718362, -1002024414792, -1001902027966, -1001374159651,
     -1001256452830, -1002094448369, -1001680799362, 6331702584, -1002092360620, -1001489331297
 ]
-
 
 # ID to send error notifications and start confirmation to
 notification_id = 535400200
@@ -41,20 +38,6 @@ message_text = """
 Сб — до 13:00/14:00 годин;
 ☎️ 0639982527 Олександр. Телефонуйте або пишіть!
 """
-
-# Simple HTTP server for Adaptable.io
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"I'm alive!")
-
-def run_http_server():
-    port = int(os.environ.get("PORT", 8000))
-    server_address = ('', port)
-    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
-    print(f"HTTP server running on port {port}")
-    httpd.serve_forever()
 
 async def send_message():
     async with client:
@@ -101,11 +84,5 @@ async def main():
         await asyncio.sleep(1)
 
 # Start the client and run the script
-if name == "__main__":
-    client.start(phone=phone_number)
-    
-    # Start the HTTP server in a separate thread
-    import threading
-    threading.Thread(target=run_http_server).start()
-    
-    client.loop.run_until_complete(main())
+client.start(phone=phone_number)
+client.loop.run_until_complete(main())
