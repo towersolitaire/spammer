@@ -5,9 +5,9 @@ import time
 import asyncio
 
 # Your Telegram API details
-api_id = '19463194'
-api_hash = 'bf73819bc78d6d974c40fe27bc5fffe9'
-phone_number = '+447442868720'
+api_id = 'TELEGRAM_API_ID'
+api_hash = 'TELEGRAM_API_HASH'
+phone_number = 'PHONE_NUMBER'
 
 # Create the Telegram client
 client = TelegramClient('session_name', api_id, api_hash)
@@ -34,7 +34,7 @@ message_text = """
 📍Київське шосе, 10б (біля Нової Лінії);
 🚍Доставка на роботу транспортом підприємства;
 🕒Графік роботи: 
-Пн-пт -повний робочий день, 
+Пн-пт — повний робочий день, 
 Сб — до 13:00/14:00 годин;
 ☎️ 0639982527 Олександр. Телефонуйте або пишіть!
 """
